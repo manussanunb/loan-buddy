@@ -6,7 +6,7 @@ import { CalculatorForm } from "@/components/calculator/CalculatorForm";
 import { CalculatorResults } from "@/components/calculator/CalculatorResults";
 import { AmortizationSchedule } from "@/types";
 
-type CalcResult = AmortizationSchedule & { monthly_payment: number; term_months: number };
+type CalcResult = AmortizationSchedule & { monthly_payment: number; term_months: number; principal: number; annual_rate: number };
 
 export default function CalculatorPage() {
   const [result, setResult] = useState<CalcResult | null>(null);

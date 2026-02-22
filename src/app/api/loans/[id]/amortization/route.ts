@@ -14,9 +14,9 @@ export async function GET(
   const { id } = await params;
 
   const [loanRes, repaymentsRes] = await Promise.all([
-    supabase.from("loans").select("*").eq("id", id).single(),
+    supabase.from("lb_loans").select("*").eq("id", id).single(),
     supabase
-      .from("repayments")
+      .from("lb_repayments")
       .select("*")
       .eq("loan_id", id)
       .order("paid_at", { ascending: true }),

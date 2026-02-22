@@ -41,5 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # project docs (private, not for GitHub)
-REQUIREMENTS.md
-TODO.md
+docs/

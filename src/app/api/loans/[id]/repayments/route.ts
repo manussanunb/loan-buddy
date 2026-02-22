@@ -13,7 +13,7 @@ export async function GET(
 
   const { id } = await params;
   const { data, error } = await supabase
-    .from("repayments")
+    .from("lb_repayments")
     .select("*")
     .eq("loan_id", id)
     .order("paid_at", { ascending: true });
@@ -45,7 +45,7 @@ export async function POST(
   }
 
   const { data: repayment, error } = await supabase
-    .from("repayments")
+    .from("lb_repayments")
     .insert({ loan_id: id, amount, paid_at, note: note || null })
     .select()
     .single();
@@ -62,8 +62,8 @@ export async function POST(
 
 async function updateLoanStatus(loanId: string) {
   const [{ data: loan }, { data: repayments }] = await Promise.all([
-    supabase.from("loans").select("*").eq("id", loanId).single(),
-    supabase.from("repayments").select("*").eq("loan_id", loanId).order("paid_at"),
+    supabase.from("lb_loans").select("*").eq("id", loanId).single(),
+    supabase.from("lb_repayments").select("*").eq("loan_id", loanId).order("paid_at"),
   ]);
 
   if (!loan || !repayments) return;
@@ -73,7 +73,7 @@ async function updateLoanStatus(loanId: string) {
 
   if (loan.status !== newStatus) {
     await supabase
-      .from("loans")
+      .from("lb_loans")
       .update({ status: newStatus, updated_at: new Date().toISOString() })
       .eq("id", loanId);
   }

@@ -1,7 +1,8 @@
 -- LoanBuddy — Supabase Schema
+-- Table prefix: lb_ (to avoid conflicts when sharing a Supabase project with other apps)
 -- Run this in the Supabase SQL Editor after creating your project
 
-CREATE TABLE loans (
+CREATE TABLE lb_loans (
   id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name               TEXT NOT NULL,
   principal          NUMERIC(15,2) NOT NULL,
@@ -17,9 +18,9 @@ CREATE TABLE loans (
   updated_at         TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE repayments (
+CREATE TABLE lb_repayments (
   id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  loan_id    UUID NOT NULL REFERENCES loans(id) ON DELETE CASCADE,
+  loan_id    UUID NOT NULL REFERENCES lb_loans(id) ON DELETE CASCADE,
   amount     NUMERIC(15,2) NOT NULL CHECK (amount > 0),
   paid_at    DATE NOT NULL,
   note       TEXT,
@@ -27,8 +28,8 @@ CREATE TABLE repayments (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_repayments_loan ON repayments(loan_id, paid_at);
+CREATE INDEX idx_lb_repayments_loan ON lb_repayments(loan_id, paid_at);
 
 -- RLS is disabled — access is enforced at the Next.js API layer using the service role key
-ALTER TABLE loans DISABLE ROW LEVEL SECURITY;
-ALTER TABLE repayments DISABLE ROW LEVEL SECURITY;
+ALTER TABLE lb_loans DISABLE ROW LEVEL SECURITY;
+ALTER TABLE lb_repayments DISABLE ROW LEVEL SECURITY;

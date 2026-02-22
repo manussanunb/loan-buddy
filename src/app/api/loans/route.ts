@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   if (isAuthError(auth)) return auth;
 
   const { data, error } = await supabase
-    .from("loans")
+    .from("lb_loans")
     .select("*")
     .order("created_at", { ascending: false });
 
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   const term_months = term_unit === "years" ? term_value * 12 : term_value;
 
   const { data, error } = await supabase
-    .from("loans")
+    .from("lb_loans")
     .insert({
       name,
       principal,

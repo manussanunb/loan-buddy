@@ -12,7 +12,7 @@ export async function GET(
 
   const { id } = await params;
   const { data, error } = await supabase
-    .from("loans")
+    .from("lb_loans")
     .select("*")
     .eq("id", id)
     .single();
@@ -38,7 +38,7 @@ export async function PUT(
   const term_months = term_unit === "years" ? term_value * 12 : term_value;
 
   const { data, error } = await supabase
-    .from("loans")
+    .from("lb_loans")
     .update({
       name,
       principal,
@@ -70,7 +70,7 @@ export async function DELETE(
   if (isAuthError(auth)) return auth;
 
   const { id } = await params;
-  const { error } = await supabase.from("loans").delete().eq("id", id);
+  const { error } = await supabase.from("lb_loans").delete().eq("id", id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

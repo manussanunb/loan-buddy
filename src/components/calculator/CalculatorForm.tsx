@@ -31,7 +31,7 @@ const fixedPaymentSchema = z.object({
 });
 
 interface CalculatorFormProps {
-  onResult: (result: AmortizationSchedule & { monthly_payment: number; term_months: number }) => void;
+  onResult: (result: AmortizationSchedule & { monthly_payment: number; term_months: number; principal: number; annual_rate: number }) => void;
 }
 
 export function CalculatorForm({ onResult }: CalculatorFormProps) {
@@ -52,7 +52,7 @@ export function CalculatorForm({ onResult }: CalculatorFormProps) {
       toast.error(err.error ?? "Calculation failed");
       return;
     }
-    onResult(await res.json());
+    onResult({ ...(await res.json()), principal: values.principal, annual_rate: values.annual_rate });
   }
 
   async function handleFixedPayment(values: z.infer<typeof fixedPaymentSchema>) {
@@ -66,7 +66,7 @@ export function CalculatorForm({ onResult }: CalculatorFormProps) {
       toast.error(err.error ?? "Calculation failed");
       return;
     }
-    onResult(await res.json());
+    onResult({ ...(await res.json()), principal: values.principal, annual_rate: values.annual_rate });
   }
 
   return (
