@@ -4,13 +4,11 @@ import Link from "next/link";
 import { AppShell } from "@/components/layout/AppShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { LoanSummaryPanel } from "@/components/loans/LoanSummaryPanel";
+import { LoanDetailTabs } from "@/components/loans/LoanDetailTabs";
 import { DeleteLoanDialog } from "@/components/loans/DeleteLoanDialog";
-import { AmortizationTable } from "@/components/amortization/AmortizationTable";
-import { AmortizationSummary } from "@/components/amortization/AmortizationSummary";
-import { RepaymentLog } from "@/components/repayments/RepaymentLog";
-import { Button } from "@/components/ui/button";
 import { Loan, AmortizationSchedule, Repayment } from "@/types";
-import { Pencil, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
@@ -65,41 +63,12 @@ export default async function LoanDetailPage({
 
       <div className="space-y-6">
         <LoanSummaryPanel loan={loan} />
-
-        {schedule && (
-          <>
-            <section>
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="font-semibold">Summary</h2>
-              </div>
-              <AmortizationSummary summary={schedule.summary} />
-            </section>
-
-            <section>
-              <h2 className="font-semibold mb-3">Amortization Schedule</h2>
-              <AmortizationTable periods={schedule.periods} />
-            </section>
-          </>
-        )}
-
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold">Repayment History</h2>
-            {isAdmin && (
-              <Button asChild size="sm">
-                <Link href={`/loans/${id}/repayments/new`}>
-                  <Plus className="h-4 w-4 mr-1" />
-                  Add Repayment
-                </Link>
-              </Button>
-            )}
-          </div>
-          <RepaymentLog
-            repayments={repayments ?? []}
-            loanId={id}
-            isAdmin={isAdmin}
-          />
-        </section>
+        <LoanDetailTabs
+          loan={loan}
+          schedule={schedule}
+          repayments={repayments ?? []}
+          isAdmin={isAdmin}
+        />
       </div>
     </AppShell>
   );

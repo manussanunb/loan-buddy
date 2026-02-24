@@ -50,8 +50,8 @@ export function NavBar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          {role && (
-            <Badge variant={isAdmin ? "default" : "secondary"} className="capitalize">
+          {isAdmin && (
+            <Badge variant="default" className="capitalize">
               {role}
             </Badge>
           )}

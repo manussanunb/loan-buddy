@@ -2,13 +2,21 @@ import { AmortizationSummaryData } from "@/types";
 import { formatTHB } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 
-export function AmortizationSummary({ summary }: { summary: AmortizationSummaryData }) {
+interface AmortizationSummaryProps {
+  summary: AmortizationSummaryData;
+  remainingPeriods?: number;
+  totalPayable?: number;
+}
+
+export function AmortizationSummary({ summary, remainingPeriods, totalPayable }: AmortizationSummaryProps) {
   const stats = [
     { label: "Remaining Balance", value: formatTHB(summary.remaining_balance), highlight: !summary.is_paid_off },
     { label: "Total Paid", value: formatTHB(summary.total_paid) },
     { label: "Total Interest Paid", value: formatTHB(summary.total_interest_paid) },
     { label: "Total Principal Paid", value: formatTHB(summary.total_principal_paid) },
     { label: "Total Scheduled", value: formatTHB(summary.total_scheduled) },
+    ...(remainingPeriods !== undefined ? [{ label: "Remaining Periods", value: `${remainingPeriods} months` }] : []),
+    ...(totalPayable !== undefined ? [{ label: "Total Payable", value: formatTHB(totalPayable) }] : []),
   ];
 
   return (
