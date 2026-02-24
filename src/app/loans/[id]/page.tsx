@@ -9,8 +9,9 @@ import { DeleteLoanDialog } from "@/components/loans/DeleteLoanDialog";
 import { Loan, AmortizationSchedule, Repayment } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
+import { getBaseUrl } from "@/lib/utils";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const BASE_URL = getBaseUrl();
 
 async function fetchWithCookie(path: string, sessionCookie: string) {
   const res = await fetch(`${BASE_URL}${path}`, {

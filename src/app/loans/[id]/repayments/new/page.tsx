@@ -4,8 +4,9 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { RepaymentForm } from "@/components/repayments/RepaymentForm";
 import { Loan, AmortizationSchedule } from "@/types";
 import { computeMonthlyPayment } from "@/lib/amortization";
+import { getBaseUrl } from "@/lib/utils";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const BASE_URL = getBaseUrl();
 
 async function fetchWithCookie(path: string, sessionCookie: string) {
   const res = await fetch(`${BASE_URL}${path}`, {

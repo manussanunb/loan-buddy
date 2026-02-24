@@ -4,8 +4,9 @@ import { AppShell } from "@/components/layout/AppShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { RepaymentForm } from "@/components/repayments/RepaymentForm";
 import { Repayment } from "@/types";
+import { getBaseUrl } from "@/lib/utils";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const BASE_URL = getBaseUrl();
 
 async function getRepayment(loanId: string, repaymentId: string, sessionCookie: string): Promise<Repayment | null> {
   const res = await fetch(`${BASE_URL}/api/loans/${loanId}/repayments`, {

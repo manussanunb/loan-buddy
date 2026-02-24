@@ -4,12 +4,13 @@ import { AppShell } from "@/components/layout/AppShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { LoanForm } from "@/components/loans/LoanForm";
 import { Loan } from "@/types";
+import { getBaseUrl } from "@/lib/utils";
 
 async function getLoan(id: string): Promise<Loan | null> {
   const cookieStore = await cookies();
   const sessionCookie = cookieStore.get("lb_session")?.value;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/api/loans/${id}`,
+    `${getBaseUrl()}/api/loans/${id}`,
     { headers: { Cookie: `lb_session=${sessionCookie}` }, cache: "no-store" }
   );
   if (!res.ok) return null;
